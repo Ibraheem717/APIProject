@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trivia</title>
+</head>
+<body>
+
+{% for item in arr %}
+    <li>{{ item.question }}</li>
+    <li>{{ item.answer }}</li>
+{% endfor %}
+
+<form action="/refreshTrivia" method="get">
+    <label for="category">Select a Category:</label>
+    <select id="category" name="category">
+        <option value="no_change">Choose</option>
+        <option value="">Random</option>
+        <option value="artliterature">Art & Literature</option>
+        <option value="language">Language</option>
+        <option value="sciencenature">Science & Nature</option>
+        <option value="general">General</option>
+        <option value="fooddrink">Food & Drink</option>
+        <option value="peopleplaces">People & Places</option>
+        <option value="geography">Geography</option>
+        <option value="historyholidays">History & Holidays</option>
+        <option value="entertainment">Entertainment</option>
+        <option value="toysgames">Toys & Games</option>
+        <option value="music">Music</option>
+        <option value="mathematics">Mathematics</option>
+        <option value="religionmythology">Religion & Mythology</option>
+        <option value="sportsleisure">Sports & Leisure</option>
+    </select>
+    <input type="submit" value="Submit Question">
+</form>
+
+</body>
+</html>
