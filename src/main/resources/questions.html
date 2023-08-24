@@ -6,10 +6,35 @@
 </head>
 <body>
 
-{% for item in arr %}
-    <li>{{ item.question }}</li>
-    <li>{{ item.answer }}</li>
-{% endfor %}
+{{ questions.question }}
+
+{% if not questions.answer is defined %}
+    <form action="/revealAnswer" method="get">
+        <label for="answer"></label><input type="text" id="answer" name="answer">
+        <input type="submit" value="Submit Answer">
+    </form>
+{% else %}
+    <p> {{ questions.outcome }} </p>
+    <p> {{ questions.answer }} </p>
+{% endif %}
+
+{% if astrology is defined %}
+
+    <ul>
+        {% for item in astrology.values() %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+{% else %}
+
+    <div> Location doesn't exist </div>
+
+{% endif %}
+<form action="/changeLocation" method="get">
+    <label for="location"></label><input type="text" id="location" name="location">
+    <input type="submit" value="Submit Answer">
+</form>
 
 <form action="/refreshTrivia" method="get">
     <label for="category">Select a Category:</label>

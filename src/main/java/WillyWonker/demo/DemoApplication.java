@@ -3,20 +3,14 @@ package WillyWonker.demo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hubspot.jinjava.Jinjava;
 import okhttp3.*;
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -37,7 +31,12 @@ public class DemoApplication {
 
 	}
 	final OkHttpClient client = new OkHttpClient();
-	String cata = "";
+	String cata="";
+	List<Referential> lastQuestion;
+	Astrology lastAstrology;
+	String location;
+	boolean reveal;
+	boolean correct;
 	final ObjectMapper objectMapper = new ObjectMapper();
 
 	public List<Referential> run(String cata) throws IOException {
@@ -53,8 +52,8 @@ public class DemoApplication {
 			Response response = client.newCall(request).execute();
 			if (response.isSuccessful()) {
 				String responseBody = response.body().string();
-				List<Referential> referentialList = objectMapper.readValue(responseBody, new TypeReference<List<Referential>>() {});
-				return referentialList;
+				// Change to lastQuestion
+                return objectMapper.readValue(responseBody, new TypeReference<List<Referential>>() {});
 			}
 
 
@@ -66,10 +65,57 @@ public class DemoApplication {
 		return new ArrayList<>();
 	}
 
-	private static String renderTemplate(List<Referential> arr) {
+	public Astrology astrologyRun(String location) {
+		OkHttpClient client = new OkHttpClient().newBuilder().build();
+		this.location = location;
+		System.out.println(location.getClass());
+		System.out.println();
+		System.out.println("https://weatherapi-com.p.rapidapi.com/astronomy.json?q=" + location);
+		Request request = new Request.Builder()
+				.url("https://weatherapi-com.p.rapidapi.com/astronomy.json?q=" + location)
+				.get()
+				.addHeader("X-RapidAPI-Key", "fbe8264b4cmsh1068f72e4668974p1e7f18jsn26c0cb2c5443")
+				.build();
+
+		try {
+			Response response = client.newCall(request).execute();
+			if (response.isSuccessful()) {
+				String responseBody = response.body().string();
+				// Change to Astro
+                return objectMapper.readValue(responseBody, Astrology.class);
+			}
+
+
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+
+		}
+		return new Astrology();
+	}
+
+	private String renderTemplate(List<Referential> arr, Astrology astro, boolean reveal, boolean correct) {
 		Jinjava jinjava = new Jinjava();
+		this.lastQuestion = arr;
+		this.lastAstrology = astro;
+		this.reveal = reveal;
+		this.correct = correct;
 		Map<String, Object> context = new HashMap<>();
-		context.put("arr", arr);
+		Map<String, String> questionContext = new HashMap<>();
+		Map<String, Astrology> astrologyContext = new HashMap<>();
+		for (Referential ref: arr){
+			questionContext.put("question", ref.getQuestion());
+			if (reveal) {
+				questionContext.put("answer", ref.getAnswer());
+				questionContext.put("outcome", (correct ? "Correct!" : "Wrong") );
+			}
+		}
+		if (astro.getAstronomy()!=null) {
+			astrologyContext.put("astrology", astro);
+			context.put("astrology", astrologyContext);
+		}
+		context.put("questions", questionContext);
+
 
 		String temp = null;
 		try {
@@ -78,26 +124,50 @@ public class DemoApplication {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(context.get("arr"));
 		return jinjava.render(temp, context);
+	}
+
+	@GetMapping("/changeLocation")
+	@ResponseBody
+	public String changeLocation(@RequestParam String location) throws IOException, InterruptedException {
+		if (this.lastAstrology==null || this.lastQuestion==null || Objects.equals(location,""))
+			return questionAPI("", location, this.reveal);
+		return renderTemplate(this.lastQuestion, this.astrologyRun(location), this.reveal, this.correct);
+	}
+
+	@GetMapping("/revealAnswer")
+	@ResponseBody
+	public String revealAnswer(@RequestParam String answer) throws IOException, InterruptedException {
+		if (this.lastAstrology==null || this.lastQuestion==null)
+			return questionAPI("", this.location,false);
+		if (Objects.equals(this.lastQuestion.get(0).getAnswer().toLowerCase(), answer.toLowerCase()))
+			return renderTemplate(this.lastQuestion, this.lastAstrology, true, true);
+		return renderTemplate(this.lastQuestion, this.lastAstrology, true, false);
 	}
 
 	@GetMapping("/refreshTrivia")
 	@ResponseBody
 	public String newTrivia(@RequestParam String category) throws IOException, InterruptedException {
 		if (Objects.equals(category, "no_change")) {
-			return questionAPI(this.cata);
+			return questionAPI(this.cata, this.location, false);
 		}
 		this.cata = category;
-		return questionAPI(category);
+		return questionAPI(category, this.location,false);
 	}
 
 
 	@GetMapping("/questions")
 	@ResponseBody
-	public String questionAPI(String cata) throws IOException, InterruptedException {
+	public String questionAPI(String cata, String location, boolean reveal) throws IOException, InterruptedException {
 		DemoApplication example = new DemoApplication();
-		return renderTemplate(example.run(cata));
+		if (cata==null) {
+			cata = "";
+		}
+		if (location==null || Objects.equals(location,"")) {
+			location = "London";
+		}
+			//
+		return renderTemplate(example.run(cata), example.astrologyRun(location), reveal, false);
 	}
 
 }
