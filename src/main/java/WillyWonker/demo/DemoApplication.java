@@ -41,7 +41,6 @@ public class DemoApplication {
 
 	public List<Referential> run(String cata) throws IOException {
 		OkHttpClient client = new OkHttpClient().newBuilder().build();
-		System.out.println("https://trivia-by-api-ninjas.p.rapidapi.com/v1/trivia?category=" + cata);
 		Request request = new Request.Builder()
 				.url("https://trivia-by-api-ninjas.p.rapidapi.com/v1/trivia?category=" + cata)
 				.get()
@@ -68,9 +67,7 @@ public class DemoApplication {
 	public Astrology astrologyRun(String location) {
 		OkHttpClient client = new OkHttpClient().newBuilder().build();
 		this.location = location;
-		System.out.println(location.getClass());
-		System.out.println();
-		System.out.println("https://weatherapi-com.p.rapidapi.com/astronomy.json?q=" + location);
+
 		Request request = new Request.Builder()
 				.url("https://weatherapi-com.p.rapidapi.com/astronomy.json?q=" + location)
 				.get()
