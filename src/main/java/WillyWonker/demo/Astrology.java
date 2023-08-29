@@ -14,5 +14,8 @@ public class Astrology {
         dict.put("Astronomy", this.astronomy.toDict());
         return dict;
     }
+    public String getName() {
+        return location.getName();
+    }
 }
 

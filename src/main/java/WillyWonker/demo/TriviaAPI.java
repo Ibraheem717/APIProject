@@ -28,6 +28,7 @@ public class TriviaAPI {
 
     public void getQuestionAPI() throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
+        System.out.println(catagory);
         Request request = new Request.Builder()
                 .url("https://trivia-by-api-ninjas.p.rapidapi.com/v1/trivia?category=" + catagory)
                 .get()
@@ -37,12 +38,17 @@ public class TriviaAPI {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 String responseBody = response.body().string();
-                this.lastQuestion = objectMapper.readValue(responseBody, new TypeReference<List<Referential>>() {});
+                System.out.println("hi");
+                System.out.println(responseBody);
+                this.lastQuestion = objectMapper.readValue(responseBody,new TypeReference<List<Referential>>(){});
+                System.out.println(lastQuestion);
+                System.out.println("bye");
             }
         }
         catch (IOException e) {
             assert true;
         }
+
     }
 
     public String renderTemplate() {
@@ -94,7 +100,9 @@ public class TriviaAPI {
 
     public List<Referential> testQuestiontionAPI(String catagory) throws IOException {
         this.catagory=catagory;
+        System.out.println(catagory);
         this.getQuestionAPI();
+        System.out.println(this.lastQuestion);
         return this.lastQuestion;
     }
 }
