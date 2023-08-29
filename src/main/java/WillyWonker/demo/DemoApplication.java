@@ -13,12 +13,16 @@ import java.util.*;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.yaml.snakeyaml.Yaml;
 
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @RestController
 public class DemoApplication {
 	String [] listOfAPI = {"API", "questionAPI", "astrologyAPI"};
+	Yaml yaml = new Yaml();
+	String keyName="RAPID_API_KEY";
+	String keyValue=System.getenv(keyName);
 
 	TriviaAPI trivia = new TriviaAPI(listOfAPI);
 	AstrologyAPI astrology = new AstrologyAPI(listOfAPI);
@@ -66,6 +70,7 @@ public class DemoApplication {
 	@GetMapping("/API")
 	@ResponseBody
 	public String homePage() throws IOException, InterruptedException {
+		System.out.println(keyValue);
 		this.jinjava = new Jinjava();
 		String temp = null;
 		try {

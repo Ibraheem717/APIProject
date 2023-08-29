@@ -26,6 +26,8 @@ public class TriviaAPI {
         catagory = "";
     }
 
+    public boolean getReveal() {return this.reveal;}
+
     public void getQuestionAPI() throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         Request request = new Request.Builder()
