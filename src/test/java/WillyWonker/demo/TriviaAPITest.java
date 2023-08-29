@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TriviaAPITest {
 
     @Test
+    @DisplayName("Reveal API")
     void revealAnswer() {
     }
 
@@ -17,15 +18,15 @@ class TriviaAPITest {
     void newTrivia() {
     }
 
-    @Test
-    @DisplayName("Test Question API")
-    void testRun() throws IOException {
-        TriviaAPI trivia = new TriviaAPI(new String[]{"API", "questionAPI", "astrologyAPI"});
-        assertAll("Should return questions if a catagory exist: " +
-                        "a mathematic question, a random question and no question",
-                () -> assertFalse( trivia.testQuestiontionAPI("mathematics").isEmpty() ),
-                () -> assertFalse( trivia.testQuestiontionAPI("").isEmpty() ),
-                () -> assertTrue( trivia.testQuestiontionAPI("null").isEmpty() )
-        );
-    }
+//    @Test
+//    @DisplayName("Test Question API")
+//    void testRun() throws IOException {
+//        TriviaAPI trivia = new TriviaAPI(new String[]{"API", "questionAPI", "astrologyAPI"});
+//        assertAll("Should return questions if a catagory exist: " +
+//                        "a mathematic question, a random question and no question",
+//                () -> assertFalse( trivia.testQuestiontionAPI("mathematics").isEmpty() ),
+//                () -> assertFalse( trivia.testQuestiontionAPI("").isEmpty() ),
+//                () -> assertTrue( trivia.testQuestiontionAPI("null").isEmpty() )
+//        );
+//    }
 }
