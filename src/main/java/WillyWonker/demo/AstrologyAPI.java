@@ -25,7 +25,9 @@ public class AstrologyAPI {
         this.astrologyArr = new ArrayList<>();
         this.location = new HashSet<>();
     }
-
+    public Set<String> getLocation() {
+        return location;
+    }
     public void getAstrologyAPI() {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         Astrology astroLocation;
@@ -55,7 +57,6 @@ public class AstrologyAPI {
             }
         }
     }
-
     public String renderTemplate() {
         Jinjava jinjava = new Jinjava();
         Map<String, Object> context = new HashMap<>();
@@ -88,11 +89,9 @@ public class AstrologyAPI {
         this.getAstrologyAPI();
         return this.renderTemplate();
     }
-
     public List<Astrology> testAstrologyAPI(HashSet<String> set) throws IOException {
         this.location=set;
         this.getAstrologyAPI();
         return this.astrologyArr;
     }
-
 }

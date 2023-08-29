@@ -1,0 +1,137 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Astrology</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">WillyWonker.demo</a>
+</div>
+
+<h1>Coverage Summary for Class: Astrology (WillyWonker.demo)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Astrology</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package WillyWonker.demo;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;public class Astrology {</b>
+&nbsp;    public Location location;
+&nbsp;    public Astronomy astronomy;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;        return &quot;Astrology: \n&quot; +</b>
+&nbsp;                &quot;Location: \n&quot; + location +
+&nbsp;                &quot;Astronomy: \n&quot; + astronomy ;
+&nbsp;    }
+&nbsp;
+&nbsp;    public HashMap&lt;String, Object&gt; toDict() {
+<b class="nc">&nbsp;        HashMap&lt;String, Object&gt; dict = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        dict.put(&quot;Location&quot;, this.location.toDict());</b>
+<b class="nc">&nbsp;        dict.put(&quot;Astronomy&quot;, this.astronomy.toDict());</b>
+<b class="nc">&nbsp;        return dict;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Astronomy getAstronomy() {
+<b class="nc">&nbsp;        return astronomy;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getName() {
+<b class="nc">&nbsp;        return location.getName();</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-08-29 09:23</div>
+</div>
+</body>
+</html>

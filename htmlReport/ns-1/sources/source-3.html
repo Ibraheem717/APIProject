@@ -1,0 +1,202 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AstrologyAPI</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">WillyWonker.demo</a>
+</div>
+
+<h1>Coverage Summary for Class: AstrologyAPI (WillyWonker.demo)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AstrologyAPI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/47)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package WillyWonker.demo;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import com.hubspot.jinjava.Jinjava;
+&nbsp;import okhttp3.OkHttpClient;
+&nbsp;import okhttp3.Request;
+&nbsp;import okhttp3.Response;
+&nbsp;import org.springframework.web.bind.annotation.GetMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+&nbsp;import org.springframework.web.bind.annotation.ResponseBody;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;public class AstrologyAPI {
+<b class="nc">&nbsp;    final ObjectMapper objectMapper = new ObjectMapper();</b>
+&nbsp;    String [] listOfAPI;
+&nbsp;    List&lt;Astrology&gt; astrologyArr;
+&nbsp;    Set&lt;String&gt; location;
+<b class="nc">&nbsp;    public AstrologyAPI(String [] arr) {</b>
+<b class="nc">&nbsp;        this.listOfAPI=arr;</b>
+<b class="nc">&nbsp;        this.astrologyArr = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        this.location = new HashSet&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void getAstrologyAPI() {
+<b class="nc">&nbsp;        OkHttpClient client = new OkHttpClient().newBuilder().build();</b>
+&nbsp;        Astrology astroLocation;
+<b class="nc">&nbsp;        this.astrologyArr.clear();</b>
+<b class="nc">&nbsp;        String [] listOfLocations = this.location.toArray(new String[0]);</b>
+<b class="nc">&nbsp;        for (String name : listOfLocations) {</b>
+<b class="nc">&nbsp;            Request request = new Request.Builder()</b>
+<b class="nc">&nbsp;                    .url(&quot;https://weatherapi-com.p.rapidapi.com/astronomy.json?q=&quot; + name)</b>
+<b class="nc">&nbsp;                    .get()</b>
+<b class="nc">&nbsp;                    .addHeader(&quot;X-RapidAPI-Key&quot;, &quot;fbe8264b4cmsh1068f72e4668974p1e7f18jsn26c0cb2c5443&quot;)</b>
+<b class="nc">&nbsp;                    .build();</b>
+&nbsp;
+&nbsp;            try {
+<b class="nc">&nbsp;                Response response = client.newCall(request).execute();</b>
+<b class="nc">&nbsp;                if (response.isSuccessful()) {</b>
+<b class="nc">&nbsp;                    String responseBody = response.body().string();</b>
+&nbsp;                    // Change to Astro
+<b class="nc">&nbsp;                    astroLocation = objectMapper.readValue(responseBody, Astrology.class);</b>
+<b class="nc">&nbsp;                    this.astrologyArr.add(astroLocation);</b>
+<b class="nc">&nbsp;                    this.location.remove(name);</b>
+<b class="nc">&nbsp;                    this.location.add(astroLocation.getName());</b>
+&nbsp;
+&nbsp;                }
+<b class="nc">&nbsp;            } catch (IOException e) {</b>
+&nbsp;                assert true;
+&nbsp;
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public String renderTemplate() {
+<b class="nc">&nbsp;        Jinjava jinjava = new Jinjava();</b>
+<b class="nc">&nbsp;        Map&lt;String, Object&gt; context = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        Map&lt;String, Object&gt; astrologyContext = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        if (!astrologyArr.isEmpty()) {</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; astrologyArr.size(); i++)</b>
+<b class="nc">&nbsp;                astrologyContext.put(astrologyArr.get(i).getName(), astrologyArr.get(i).toDict());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        context.put(&quot;astrology&quot;, astrologyContext);</b>
+<b class="nc">&nbsp;        context.put(&quot;menu&quot;, this.listOfAPI);</b>
+<b class="nc">&nbsp;        String temp = null;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            temp = Files.readString(Paths.get(&quot;src/main/resources/astrology.html&quot;));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (IOException e) {</b>
+&nbsp;            assert true;
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return jinjava.render(temp, context);</b>
+&nbsp;    }
+&nbsp;    public String removeLocation(String location) throws IOException, InterruptedException {
+<b class="nc">&nbsp;        if (this.astrologyArr!=null)</b>
+<b class="nc">&nbsp;            this.location.remove(location);</b>
+<b class="nc">&nbsp;        this.getAstrologyAPI();</b>
+<b class="nc">&nbsp;        return this.renderTemplate();</b>
+&nbsp;    }
+&nbsp;    public String addLocation(String location) throws IOException, InterruptedException {
+<b class="nc">&nbsp;        if (this.astrologyArr!=null) {</b>
+<b class="nc">&nbsp;            this.location.add(location);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        this.getAstrologyAPI();</b>
+<b class="nc">&nbsp;        return this.renderTemplate();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Astrology&gt; testAstrologyAPI(HashSet&lt;String&gt; set) throws IOException {
+<b class="nc">&nbsp;        this.location=set;</b>
+<b class="nc">&nbsp;        this.getAstrologyAPI();</b>
+<b class="nc">&nbsp;        return this.astrologyArr;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-08-29 09:23</div>
+</div>
+</body>
+</html>
