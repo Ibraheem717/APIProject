@@ -24,8 +24,8 @@ class DemoApplicationTest {
     @DisplayName("Test Astrology API")
     void testAstrologyRun() throws IOException, InterruptedException {
         DemoApplication demo = new DemoApplication();
-        assertFalse(demo.astrology.testAstrologyAPI(
-                new HashSet<>(List.of("London"))).isEmpty());
+        demo.astrologyAPI();
+        assertTrue(demo.astrology.getAstrologyArr().isEmpty());
     }
 
 }

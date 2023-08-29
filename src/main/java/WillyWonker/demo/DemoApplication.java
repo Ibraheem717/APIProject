@@ -72,8 +72,7 @@ public class DemoApplication {
 		this.jinjava = new Jinjava();
 		String temp = null;
 		try {
-			temp = new String(Files.readAllBytes(Paths.get("src/main/resources/Home.html")),
-					StandardCharsets.UTF_8);
+			temp = Files.readString(Paths.get("src/main/resources/Home.html"));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
