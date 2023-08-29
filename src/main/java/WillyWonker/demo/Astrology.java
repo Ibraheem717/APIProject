@@ -3,8 +3,8 @@ import java.util.HashMap;
 
 
 public class Astrology {
-    private Location location;
-    private Astronomy astronomy;
+    public Location location;
+    public Astronomy astronomy;
 
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> dict = new HashMap<>();

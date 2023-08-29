@@ -46,8 +46,7 @@ public class AstrologyAPI {
                 Response response = client.newCall(request).execute();
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
-                    // Change to Astro
-                    astroLocation = objectMapper.readValue(responseBody, Astrology.class);
+                        astroLocation = objectMapper.readValue(responseBody, Astrology.class);
                     this.astrologyArr.add(astroLocation);
                     this.location.remove(name);
                     this.location.add(astroLocation.getName());
