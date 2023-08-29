@@ -37,7 +37,7 @@ public class TriviaAPI {
         Request request = new Request.Builder()
                 .url("https://trivia-by-api-ninjas.p.rapidapi.com/v1/trivia?category=" + catagory)
                 .get()
-                .addHeader("X-RapidAPI-Key", "fbe8264b4cmsh1068f72e4668974p1e7f18jsn26c0cb2c5443")
+                .addHeader("X-RapidAPI-Key", DemoApplication.keyValue)
                 .build();
         try {
             Response response = client.newCall(request).execute();
@@ -49,7 +49,6 @@ public class TriviaAPI {
         catch (IOException e) {
             assert true;
         }
-
     }
 
     public String renderTemplate() {

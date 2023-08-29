@@ -2,6 +2,7 @@ package WillyWonker.demo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hubspot.jinjava.Jinjava;
 import okhttp3.*;
+import org.hibernate.event.spi.SaveOrUpdateEvent;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,9 +21,7 @@ import org.yaml.snakeyaml.Yaml;
 @RestController
 public class DemoApplication {
 	String [] listOfAPI = {"API", "questionAPI", "astrologyAPI"};
-//	Yaml yaml = new Yaml();
-//	String keyName="RAPID_API_KEY";
-//	String keyValue=System.getenv("RAPID_API_KEY");
+	static String keyValue=System.getenv("RAPID_API_KEY");
 	TriviaAPI trivia = new TriviaAPI(listOfAPI);
 	AstrologyAPI astrology = new AstrologyAPI(listOfAPI);
 	Jinjava jinjava;

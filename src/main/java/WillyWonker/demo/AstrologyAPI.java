@@ -44,7 +44,7 @@ public class AstrologyAPI {
             Request request = new Request.Builder()
                     .url("https://weatherapi-com.p.rapidapi.com/astronomy.json?q=" + name)
                     .get()
-                    .addHeader("X-RapidAPI-Key", "fbe8264b4cmsh1068f72e4668974p1e7f18jsn26c0cb2c5443")
+                    .addHeader("X-RapidAPI-Key", DemoApplication.keyValue)
                     .build();
 
             try {
