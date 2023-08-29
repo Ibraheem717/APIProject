@@ -8,6 +8,7 @@ public class Astrology {
     public Location location;
     public Astronomy astronomy;
 
+
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> dict = new HashMap<>();
         dict.put("Location", this.location.toDict());

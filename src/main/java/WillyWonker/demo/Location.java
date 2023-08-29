@@ -14,6 +14,7 @@ public class Location {
     public String tz_id;
     public int localtime_epoch;
     public String localtime;
+
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> dict = new HashMap<>();
         dict.put("Name", this.name);

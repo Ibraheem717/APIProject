@@ -8,6 +8,6 @@ Feature: Do I get a question?
 
   Examples:
     | catagory       | question |
-    | music          | True     |
-    |                | True     |
-    | null           | False    |
+    | music          | False    |
+    |                | False    |
+    | null           | True     |
