@@ -17,7 +17,7 @@ class DemoApplicationTest {
     void testQuestionRun() throws IOException, InterruptedException {
         DemoApplication demo = new DemoApplication();
         demo.questionAPI();
-        assertFalse(demo.trivia.getLastQuestion().isEmpty());
+        assertFalse(demo.getTrivia().getLastQuestion().isEmpty());
     }
 
     @Test
@@ -25,7 +25,7 @@ class DemoApplicationTest {
     void testAstrologyRun() throws IOException, InterruptedException {
         DemoApplication demo = new DemoApplication();
         demo.astrologyAPI();
-        assertTrue(demo.astrology.getAstrologyArr().isEmpty());
+        assertTrue(demo.getAstrology().getAstrologyArr().isEmpty());
     }
 
 }

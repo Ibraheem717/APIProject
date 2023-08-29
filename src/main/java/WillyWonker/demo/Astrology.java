@@ -1,12 +1,10 @@
 package WillyWonker.demo;
-
 import java.util.HashMap;
-import java.util.Map;
 
 
 public class Astrology {
-    public Location location;
-    public Astronomy astronomy;
+    private Location location;
+    private Astronomy astronomy;
 
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> dict = new HashMap<>();

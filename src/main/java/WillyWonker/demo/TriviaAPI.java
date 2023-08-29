@@ -1,5 +1,4 @@
 package WillyWonker.demo;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hubspot.jinjava.Jinjava;
 import okhttp3.OkHttpClient;
@@ -32,7 +31,7 @@ public class TriviaAPI {
         return lastQuestion;
     }
 
-    public void getQuestionAPI() throws IOException {
+    public void getQuestionAPI()  {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         Request request = new Request.Builder()
                 .url("https://trivia-by-api-ninjas.p.rapidapi.com/v1/trivia?category=" + catagory)
@@ -76,7 +75,7 @@ public class TriviaAPI {
     }
 
 
-    public String revealAnswer(String answer) throws IOException, InterruptedException {
+    public String revealAnswer(String answer)  {
         if (this.lastQuestion==null) {
             this.getQuestionAPI();
         }
@@ -89,7 +88,7 @@ public class TriviaAPI {
     }
 
 
-    public String newTrivia(String category) throws IOException, InterruptedException {
+    public String newTrivia(String category)  {
         reveal=false;
         correct=false;
         if (!Objects.equals(category, "no_change"))
@@ -98,7 +97,7 @@ public class TriviaAPI {
         return renderTemplate();
     }
 
-    public List<Referential> testQuestiontionAPI(String catagory) throws IOException {
+    public List<Referential> testQuestiontionAPI(String catagory)  {
         this.catagory=catagory;
         this.getQuestionAPI();
         return this.lastQuestion;

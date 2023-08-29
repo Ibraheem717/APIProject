@@ -5,12 +5,7 @@ import com.hubspot.jinjava.Jinjava;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -83,20 +78,20 @@ public class AstrologyAPI {
         }
         return jinjava.render(temp, context);
     }
-    public String removeLocation(String location) throws IOException, InterruptedException {
+    public String removeLocation(String location) {
         if (this.astrologyArr!=null)
             this.location.remove(location);
         this.getAstrologyAPI();
         return this.renderTemplate();
     }
-    public String addLocation(String location) throws IOException, InterruptedException {
+    public String addLocation(String location) {
         if (this.astrologyArr!=null) {
             this.location.add(location);
         }
         this.getAstrologyAPI();
         return this.renderTemplate();
     }
-    public List<Astrology> testAstrologyAPI(HashSet<String> set) throws IOException {
+    public List<Astrology> testAstrologyAPI(HashSet<String> set) {
         this.location=set;
         this.getAstrologyAPI();
         return this.astrologyArr;
