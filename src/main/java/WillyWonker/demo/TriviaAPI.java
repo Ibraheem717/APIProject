@@ -28,6 +28,10 @@ public class TriviaAPI {
 
     public boolean getReveal() {return this.reveal;}
 
+    public List<Referential> getLastQuestion() {
+        return lastQuestion;
+    }
+
     public void getQuestionAPI() throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         Request request = new Request.Builder()

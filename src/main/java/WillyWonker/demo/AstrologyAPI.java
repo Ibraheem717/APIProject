@@ -20,6 +20,8 @@ public class AstrologyAPI {
     String [] listOfAPI;
     List<Astrology> astrologyArr;
     Set<String> location;
+    String keyName="RAPID_API_KEY";
+    String keyValue=System.getenv(keyName);
     public AstrologyAPI(String [] arr) {
         this.listOfAPI=arr;
         this.astrologyArr = new ArrayList<>();
@@ -28,6 +30,11 @@ public class AstrologyAPI {
     public Set<String> getLocation() {
         return location;
     }
+
+    public List<Astrology> getAstrologyArr() {
+        return astrologyArr;
+    }
+
     public void getAstrologyAPI() {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         Astrology astroLocation;

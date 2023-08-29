@@ -20,10 +20,9 @@ import org.yaml.snakeyaml.Yaml;
 @RestController
 public class DemoApplication {
 	String [] listOfAPI = {"API", "questionAPI", "astrologyAPI"};
-	Yaml yaml = new Yaml();
-	String keyName="RAPID_API_KEY";
-	String keyValue=System.getenv(keyName);
-
+//	Yaml yaml = new Yaml();
+//	String keyName="RAPID_API_KEY";
+//	String keyValue=System.getenv("RAPID_API_KEY");
 	TriviaAPI trivia = new TriviaAPI(listOfAPI);
 	AstrologyAPI astrology = new AstrologyAPI(listOfAPI);
 	Jinjava jinjava;
@@ -70,7 +69,6 @@ public class DemoApplication {
 	@GetMapping("/API")
 	@ResponseBody
 	public String homePage() throws IOException, InterruptedException {
-		System.out.println(keyValue);
 		this.jinjava = new Jinjava();
 		String temp = null;
 		try {

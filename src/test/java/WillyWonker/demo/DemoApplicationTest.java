@@ -12,8 +12,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DemoApplicationTest {
 
+    @Test
+    @DisplayName("Test Question API")
+    void testQuestionRun() throws IOException, InterruptedException {
+        DemoApplication demo = new DemoApplication();
+        demo.questionAPI();
+        assertFalse(demo.trivia.getLastQuestion().isEmpty());
+    }
 
-
-
+    @Test
+    @DisplayName("Test Astrology API")
+    void testAstrologyRun() throws IOException, InterruptedException {
+        DemoApplication demo = new DemoApplication();
+        assertFalse(demo.astrology.testAstrologyAPI(
+                new HashSet<>(List.of("London"))).isEmpty());
+    }
 
 }
