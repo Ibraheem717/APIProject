@@ -16,11 +16,12 @@ class AstrologyAPITest {
     @Test
     @DisplayName("Test Astrology remove & add location")
     void addAndremoveLocation() throws IOException, InterruptedException {
-        AstrologyAPI astrology = new AstrologyAPI(new String[]{"API", "questionAPI", "astrologyAPI"});
-        astrology.addLocation("London");
-        assertFalse(astrology.getLocation().isEmpty());
-        astrology.removeLocation("London");
-        assertTrue(astrology.getLocation().isEmpty());
+        DemoApplication astrologyTest = new DemoApplication();
+        astrologyTest.astrologyAPI();
+        astrologyTest.addLocation("London");
+        assertFalse(astrologyTest.getAstrology().getLocation().isEmpty());
+        astrologyTest.removeLocation("London");
+        assertTrue(astrologyTest.getAstrology().getLocation().isEmpty());
     }
 
     @Test

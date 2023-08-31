@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DemoApplication.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jacoco.exec</a> &gt; <a href="index.source.html" class="el_package">WillyWonker.demo</a> &gt; <span class="el_source">DemoApplication.java</span></div><h1>DemoApplication.java</h1><pre class="source lang-java linenums">package WillyWonker.demo;
+import com.hubspot.jinjava.Jinjava;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@RestController
+<span class="fc" id="L16">public class DemoApplication {</span>
+<span class="fc" id="L17">	private String [] listOfAPI = {&quot;API&quot;, &quot;questionAPI&quot;, &quot;astrologyAPI&quot;};</span>
+<span class="fc" id="L18">	static String keyValue=System.getenv(&quot;RAPID_API_KEY&quot;);</span>
+<span class="fc" id="L19">	private TriviaAPI trivia = new TriviaAPI(listOfAPI);</span>
+<span class="fc" id="L20">	private AstrologyAPI astrology = new AstrologyAPI(listOfAPI);</span>
+
+	public static void main(String[] args) throws IOException {
+<span class="nc" id="L23">		SpringApplication.run(DemoApplication.class, args);</span>
+<span class="nc" id="L24">	}</span>
+	public TriviaAPI getTrivia() {
+<span class="fc" id="L26">		return trivia;</span>
+	}
+	public AstrologyAPI getAstrology() {
+<span class="fc" id="L29">		return astrology;</span>
+	}
+
+	@GetMapping(&quot;/questionAPI&quot;)
+	@ResponseBody
+	public String questionAPI()  {
+<span class="fc" id="L35">		this.trivia.getQuestionAPI();</span>
+<span class="fc" id="L36">		return this.trivia.renderTemplate();</span>
+	}
+	@GetMapping(&quot;/revealAnswer&quot;)
+	@ResponseBody
+	public String revealAnswer(@RequestParam String answer)  {
+<span class="nc" id="L41">		return this.trivia.revealAnswer(answer);</span>
+	}
+
+	@GetMapping(&quot;/refreshTrivia&quot;)
+	@ResponseBody
+	public String newTrivia(@RequestParam String category)  {
+<span class="nc" id="L47">		return this.trivia.newTrivia(category);</span>
+	}
+
+	@GetMapping(&quot;/astrologyAPI&quot;)
+	@ResponseBody
+	public String astrologyAPI()  {
+<span class="fc" id="L53">		this.astrology.getAstrologyAPI();</span>
+<span class="fc" id="L54">		return this.astrology.renderTemplate();</span>
+	}
+	@GetMapping(&quot;/removeLocation&quot;)
+	@ResponseBody
+	public String removeLocation(@RequestParam String location)  {
+<span class="fc" id="L59">		this.astrology.removeLocation(location);</span>
+<span class="fc" id="L60">		return this.astrology.renderTemplate();</span>
+	}
+	@GetMapping(&quot;/addLocation&quot;)
+	@ResponseBody
+	public String addLocation(@RequestParam String location)  {
+<span class="fc" id="L65">		this.astrology.addLocation(location);</span>
+<span class="fc" id="L66">		return this.astrology.renderTemplate();</span>
+	}
+	@GetMapping(&quot;/API&quot;)
+	@ResponseBody
+	public String homePage()  {
+<span class="fc" id="L71">		Jinjava jinjava = new Jinjava();</span>
+<span class="fc" id="L72">		String temp = null;</span>
+		try {
+<span class="fc" id="L74">			temp = Files.readString(Paths.get(&quot;src/main/resources/Home.html&quot;));</span>
+		}
+<span class="nc" id="L76">		catch (IOException e) {</span>
+			assert true;
+<span class="fc" id="L78">		}</span>
+<span class="fc" id="L79">		return jinjava.render(temp,  new HashMap&lt;&gt;() );</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

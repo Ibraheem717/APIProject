@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Astro.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jacoco.exec</a> &gt; <a href="index.source.html" class="el_package">WillyWonker.demo</a> &gt; <span class="el_source">Astro.java</span></div><h1>Astro.java</h1><pre class="source lang-java linenums">package WillyWonker.demo;
+
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+<span class="fc" id="L8">public class Astro {</span>
+    private String sunrise;
+    private String sunset;
+    private String moonrise;
+    private String moonset;
+    private String moon_phase;
+    private String moon_illumination;
+    private int is_moon_up;
+    private int is_sun_up;
+
+    public HashMap&lt;String, Object&gt; toDict() {
+<span class="fc" id="L19">        HashMap&lt;String, Object&gt; dict = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L20">        dict.put(&quot;Sunrise&quot;, this.sunrise);</span>
+<span class="fc" id="L21">        dict.put(&quot;Sunset&quot;, this.sunset);</span>
+<span class="fc" id="L22">        dict.put(&quot;Moonrise&quot;, this.moonrise);</span>
+<span class="fc" id="L23">        dict.put(&quot;Moonset&quot;, this.moonset);</span>
+<span class="fc" id="L24">        dict.put(&quot;Moon_phase&quot;, this.moon_phase);</span>
+<span class="fc" id="L25">        dict.put(&quot;Moon_illumination&quot;, this.moon_illumination);</span>
+<span class="fc" id="L26">        dict.put(&quot;is_moon_up&quot;, this.is_moon_up);</span>
+<span class="fc" id="L27">        dict.put(&quot;is_sun_up&quot;, this.is_sun_up);</span>
+<span class="fc" id="L28">        return dict;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AstrologyAPI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jacoco.exec</a> &gt; <a href="index.source.html" class="el_package">WillyWonker.demo</a> &gt; <span class="el_source">AstrologyAPI.java</span></div><h1>AstrologyAPI.java</h1><pre class="source lang-java linenums">package WillyWonker.demo;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hubspot.jinjava.Jinjava;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+
+public class AstrologyAPI {
+<span class="fc" id="L14">    final ObjectMapper objectMapper = new ObjectMapper();</span>
+    String [] listOfAPI;
+    List&lt;Astrology&gt; astrologyArr;
+    Set&lt;String&gt; location;
+<span class="fc" id="L18">    String keyName=&quot;RAPID_API_KEY&quot;;</span>
+<span class="fc" id="L19">    String keyValue=System.getenv(keyName);</span>
+<span class="fc" id="L20">    public AstrologyAPI(String [] arr) {</span>
+<span class="fc" id="L21">        this.listOfAPI=arr;</span>
+<span class="fc" id="L22">        this.astrologyArr = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L23">        this.location = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L24">    }</span>
+    public Set&lt;String&gt; getLocation() {
+<span class="fc" id="L26">        return location;</span>
+    }
+
+    public List&lt;Astrology&gt; getAstrologyArr() {
+<span class="fc" id="L30">        return astrologyArr;</span>
+    }
+
+    public void getAstrologyAPI() {
+<span class="fc" id="L34">        OkHttpClient client = new OkHttpClient().newBuilder().build();</span>
+        Astrology astroLocation;
+<span class="fc" id="L36">        this.astrologyArr.clear();</span>
+<span class="fc" id="L37">        String [] listOfLocations = this.location.toArray(new String[0]);</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        for (String name : listOfLocations) {</span>
+<span class="fc" id="L39">            Request request = new Request.Builder()</span>
+<span class="fc" id="L40">                    .url(&quot;https://weatherapi-com.p.rapidapi.com/astronomy.json?q=&quot; + name)</span>
+<span class="fc" id="L41">                    .get()</span>
+<span class="fc" id="L42">                    .addHeader(&quot;X-RapidAPI-Key&quot;, DemoApplication.keyValue)</span>
+<span class="fc" id="L43">                    .build();</span>
+
+            try {
+<span class="fc" id="L46">                Response response = client.newCall(request).execute();</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">                if (response.isSuccessful()) {</span>
+<span class="fc" id="L48">                    String responseBody = response.body().string();</span>
+<span class="fc" id="L49">                        astroLocation = objectMapper.readValue(responseBody, Astrology.class);</span>
+<span class="fc" id="L50">                    this.astrologyArr.add(astroLocation);</span>
+<span class="fc" id="L51">                    this.location.remove(name);</span>
+<span class="fc" id="L52">                    this.location.add(astroLocation.getName());</span>
+                }
+<span class="nc" id="L54">            } catch (IOException e) {</span>
+                assert true;
+<span class="fc" id="L56">            }</span>
+        }
+<span class="fc" id="L58">    }</span>
+    public String renderTemplate() {
+<span class="fc" id="L60">        Jinjava jinjava = new Jinjava();</span>
+<span class="fc" id="L61">        Map&lt;String, Object&gt; context = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L62">        Map&lt;String, Object&gt; astrologyContext = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (!astrologyArr.isEmpty()) {</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">            for (int i = 0; i &lt; astrologyArr.size(); i++)</span>
+<span class="fc" id="L65">                astrologyContext.put(astrologyArr.get(i).getName(), astrologyArr.get(i).toDict());</span>
+        }
+<span class="fc" id="L67">        context.put(&quot;astrology&quot;, astrologyContext);</span>
+<span class="fc" id="L68">        context.put(&quot;menu&quot;, this.listOfAPI);</span>
+<span class="fc" id="L69">        String temp = null;</span>
+        try {
+<span class="fc" id="L71">            temp = Files.readString(Paths.get(&quot;src/main/resources/astrology.html&quot;));</span>
+        }
+<span class="nc" id="L73">        catch (IOException e) {</span>
+            assert true;
+<span class="fc" id="L75">        }</span>
+<span class="fc" id="L76">        return jinjava.render(temp, context);</span>
+    }
+    public String removeLocation(String location) {
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        if (this.astrologyArr!=null)</span>
+<span class="fc" id="L80">            this.location.remove(location);</span>
+<span class="fc" id="L81">        this.getAstrologyAPI();</span>
+<span class="fc" id="L82">        return this.renderTemplate();</span>
+    }
+    public String addLocation(String location) {
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">        if (this.astrologyArr!=null) {</span>
+<span class="fc" id="L86">            this.location.add(location);</span>
+        }
+<span class="fc" id="L88">        this.getAstrologyAPI();</span>
+<span class="fc" id="L89">        return this.renderTemplate();</span>
+    }
+    public List&lt;Astrology&gt; testAstrologyAPI(HashSet&lt;String&gt; set) {
+<span class="fc" id="L92">        this.location=set;</span>
+<span class="fc" id="L93">        this.getAstrologyAPI();</span>
+<span class="fc" id="L94">        return this.astrologyArr;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

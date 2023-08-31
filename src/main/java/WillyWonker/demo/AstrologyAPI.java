@@ -53,7 +53,6 @@ public class AstrologyAPI {
                 }
             } catch (IOException e) {
                 assert true;
-
             }
         }
     }

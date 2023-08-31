@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StepDefinitions.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jacoco.exec</a> &gt; <a href="index.source.html" class="el_package">hellocucumber</a> &gt; <span class="el_source">StepDefinitions.java</span></div><h1>StepDefinitions.java</h1><pre class="source lang-java linenums">package hellocucumber;
+import WillyWonker.demo.TriviaAPI;
+import io.cucumber.java.ParameterType;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+<span class="fc" id="L11">public class StepDefinitions {</span>
+    private boolean output;
+    private String lastQuestion;
+    private String currentQuestion;
+    private TriviaAPI trivia;
+    @ParameterType(value = &quot;true|True|TRUE|false|False|FALSE&quot;)
+    public Boolean booleanValue(String value) {
+<span class="fc" id="L18">        return Boolean.valueOf(value);</span>
+    }
+    @Given(&quot;a question&quot;)
+    public void a_question() {
+<span class="fc" id="L22">        this.trivia = new TriviaAPI(new String[]{&quot;API&quot;, &quot;questionAPI&quot;, &quot;astrologyAPI&quot;});</span>
+<span class="fc" id="L23">        this.lastQuestion = this.trivia.testQuestiontionAPI(&quot;&quot;).get(0).getQuestion();</span>
+<span class="fc" id="L24">    }</span>
+    @When(&quot;I give a {string} and ask for a new question&quot;)
+    public void i_give_a(String string) throws IOException {
+<span class="fc" id="L27">        TriviaAPI trivia = new TriviaAPI(new String[]{&quot;API&quot;, &quot;questionAPI&quot;, &quot;astrologyAPI&quot;});</span>
+<span class="fc" id="L28">        this.currentQuestion = trivia.testQuestiontionAPI(string).get(0).getQuestion();</span>
+<span class="fc" id="L29">    }</span>
+    @Then(&quot;I should get a different question&quot;)
+    public void i_should_get_a_different_question() {
+<span class="fc" id="L32">        assertNotEquals(this.currentQuestion, this.lastQuestion);</span>
+<span class="fc" id="L33">    }</span>
+    @Given(&quot;the question isn't answered already&quot;)
+    public void the_question_isn_t_answered_already() {
+<span class="fc" id="L36">    }</span>
+    @When(&quot;I give an {string}&quot;)
+    public void i_give_an(String string) throws IOException, InterruptedException {
+<span class="fc" id="L39">        TriviaAPI trivia = new TriviaAPI(new String[]{&quot;API&quot;, &quot;questionAPI&quot;, &quot;astrologyAPI&quot;});</span>
+<span class="fc" id="L40">        trivia.getQuestionAPI();</span>
+<span class="fc" id="L41">        trivia.revealAnswer(string);</span>
+<span class="fc" id="L42">        this.output = trivia.getReveal();</span>
+<span class="fc" id="L43">    }</span>
+    @Then(&quot;I should get {string}&quot;)
+    public void i_should_get(String string) throws IOException {
+<span class="fc" id="L46">        assertEquals(booleanValue(string), this.output);</span>
+<span class="fc" id="L47">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

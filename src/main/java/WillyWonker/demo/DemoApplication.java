@@ -74,7 +74,7 @@ public class DemoApplication {
 			temp = Files.readString(Paths.get("src/main/resources/Home.html"));
 		}
 		catch (IOException e) {
-			e.printStackTrace();
+			assert true;
 		}
 		return jinjava.render(temp,  new HashMap<>() );
 	}

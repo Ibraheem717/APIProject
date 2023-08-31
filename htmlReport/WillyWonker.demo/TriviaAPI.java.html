@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TriviaAPI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jacoco.exec</a> &gt; <a href="index.source.html" class="el_package">WillyWonker.demo</a> &gt; <span class="el_source">TriviaAPI.java</span></div><h1>TriviaAPI.java</h1><pre class="source lang-java linenums">package WillyWonker.demo;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hubspot.jinjava.Jinjava;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+
+public class TriviaAPI {
+    String catagory;
+    List&lt;Referential&gt; lastQuestion;
+    String [] listOfAPI;
+    boolean reveal;
+    boolean correct;
+    Jinjava jinjava;
+<span class="fc" id="L19">    final ObjectMapper objectMapper = new ObjectMapper();</span>
+
+<span class="fc" id="L21">    public TriviaAPI(String [] arr) {</span>
+<span class="fc" id="L22">        this.listOfAPI=arr;</span>
+<span class="fc" id="L23">        reveal = false;</span>
+<span class="fc" id="L24">        correct = false;</span>
+<span class="fc" id="L25">        catagory = &quot;&quot;;</span>
+<span class="fc" id="L26">    }</span>
+
+<span class="fc" id="L28">    public boolean getReveal() {return this.reveal;}</span>
+
+    public List&lt;Referential&gt; getLastQuestion() {
+<span class="fc" id="L31">        return lastQuestion;</span>
+    }
+
+    public void getQuestionAPI()  {
+
+<span class="fc" id="L36">        OkHttpClient client = new OkHttpClient().newBuilder().build();</span>
+
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">        String last = (this.lastQuestion==null ? &quot;&quot; : this.lastQuestion.get(0).getQuestion());</span>
+        do {
+<span class="fc" id="L40">            Request request = new Request.Builder()</span>
+<span class="fc" id="L41">                    .url(&quot;https://trivia-by-api-ninjas.p.rapidapi.com/v1/trivia?category=&quot; + catagory)</span>
+<span class="fc" id="L42">                    .get()</span>
+<span class="fc" id="L43">                    .addHeader(&quot;X-RapidAPI-Key&quot;, DemoApplication.keyValue)</span>
+<span class="fc" id="L44">                    .build();</span>
+            try {
+<span class="fc" id="L46">                Response response = client.newCall(request).execute();</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">                if (response.isSuccessful()) {</span>
+<span class="fc" id="L48">                    String responseBody = response.body().string();</span>
+<span class="fc" id="L49">                    this.lastQuestion = List.of(objectMapper.readValue(responseBody, Referential[].class));</span>
+                }
+<span class="nc" id="L51">            } catch (IOException e) {</span>
+<span class="nc" id="L52">                this.lastQuestion = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L53">                this.lastQuestion.add(new Referential());</span>
+<span class="fc" id="L54">            }</span>
+        }
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        while (Objects.equals(last, this.lastQuestion.get(0).getQuestion()));</span>
+<span class="fc" id="L57">    }</span>
+
+    public String renderTemplate() {
+<span class="fc" id="L60">        jinjava = new Jinjava();</span>
+<span class="fc" id="L61">        Map&lt;String, Object&gt; context = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L62">        Map&lt;String, String&gt; questionContext = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        for (Referential ref: lastQuestion){</span>
+<span class="fc" id="L64">            questionContext.put(&quot;question&quot;, ref.getQuestion());</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            if (reveal) {</span>
+<span class="fc" id="L66">                questionContext.put(&quot;answer&quot;, ref.getAnswer());</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">                questionContext.put(&quot;outcome&quot;, (correct ? &quot;Correct!&quot; : &quot;Wrong&quot;) );</span>
+            }
+<span class="fc" id="L69">        }</span>
+<span class="fc" id="L70">        context.put(&quot;questions&quot;, questionContext);</span>
+<span class="fc" id="L71">        context.put(&quot;menu&quot;, this.listOfAPI);</span>
+<span class="fc" id="L72">        String temp = null;</span>
+        try {
+<span class="fc" id="L74">            temp = Files.readString(Paths.get(&quot;src/main/resources/questions.html&quot;));</span>
+        }
+<span class="nc" id="L76">        catch (IOException e) {</span>
+            assert true;
+<span class="fc" id="L78">        }</span>
+
+<span class="fc" id="L80">        return jinjava.render(temp, context);</span>
+    }
+
+
+    public String revealAnswer(String answer)  {
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">        if (this.lastQuestion==null) {</span>
+<span class="nc" id="L86">            this.getQuestionAPI();</span>
+        }
+        else {
+<span class="fc" id="L89">            reveal = true;</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">            if (Objects.equals(this.lastQuestion.get(0).getAnswer().toLowerCase(), answer.toLowerCase()))</span>
+<span class="nc" id="L91">                correct = true;</span>
+        }
+<span class="fc" id="L93">        return renderTemplate();</span>
+    }
+
+
+    public String newTrivia(String category)  {
+<span class="nc" id="L98">        reveal=false;</span>
+<span class="nc" id="L99">        correct=false;</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if (!Objects.equals(category, &quot;no_change&quot;))</span>
+<span class="nc" id="L101">            this.catagory = category;</span>
+<span class="nc" id="L102">        this.getQuestionAPI();</span>
+<span class="nc" id="L103">        return renderTemplate();</span>
+    }
+
+    public List&lt;Referential&gt; testQuestiontionAPI(String catagory)  {
+<span class="fc" id="L107">        this.catagory=catagory;</span>
+<span class="fc" id="L108">        this.getQuestionAPI();</span>
+<span class="fc" id="L109">        return this.lastQuestion;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

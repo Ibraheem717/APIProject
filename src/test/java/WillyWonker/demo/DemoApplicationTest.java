@@ -28,4 +28,12 @@ class DemoApplicationTest {
         assertTrue(demo.getAstrology().getAstrologyArr().isEmpty());
     }
 
+    @Test
+    @DisplayName("Test Home API")
+    void testHomeRun() throws IOException, InterruptedException {
+        DemoApplication demo = new DemoApplication();
+        String temp = demo.homePage();
+        assertEquals("<!DOCTYPE html", temp.split(">")[0]);
+    }
+
 }
