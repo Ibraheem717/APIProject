@@ -50,7 +50,6 @@ public class AstrologyAPI {
                     this.astrologyArr.add(astroLocation);
                     this.location.remove(name);
                     this.location.add(astroLocation.getName());
-
                 }
             } catch (IOException e) {
                 assert true;

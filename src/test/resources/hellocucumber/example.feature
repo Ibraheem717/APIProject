@@ -1,13 +1,12 @@
 Feature: Do I get a question?
-  The system wants to get a question
+  The users wants to get a question
 
   Scenario Outline: Is a questioned given or not?
-    Given quiz takes a catagory
-    When I give a "<catagory>"
-    Then I should get "<question>"
+    Given a question
+    When I give a "<catagory>" and ask for a new question
+    Then I should get a different question
 
   Examples:
-    | catagory       | question |
-    | music          | False    |
-    |                | False    |
-    | null           | True     |
+    | catagory       |
+    | music          |
+    |                |

@@ -33,21 +33,24 @@ public class TriviaAPI {
 
     public void getQuestionAPI()  {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
-        Request request = new Request.Builder()
-                .url("https://trivia-by-api-ninjas.p.rapidapi.com/v1/trivia?category=" + catagory)
-                .get()
-                .addHeader("X-RapidAPI-Key", DemoApplication.keyValue)
-                .build();
-        try {
-            Response response = client.newCall(request).execute();
-            if (response.isSuccessful()) {
-                String responseBody = response.body().string();
-                this.lastQuestion = List.of(objectMapper.readValue(responseBody, Referential[].class));
+        String last = (this.lastQuestion==null ? "" : this.lastQuestion.get(0).getQuestion());
+        do {
+            Request request = new Request.Builder()
+                    .url("https://trivia-by-api-ninjas.p.rapidapi.com/v1/trivia?category=" + catagory)
+                    .get()
+                    .addHeader("X-RapidAPI-Key", DemoApplication.keyValue)
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    String responseBody = response.body().string();
+                    this.lastQuestion = List.of(objectMapper.readValue(responseBody, Referential[].class));
+                }
+            } catch (IOException e) {
+                assert true;
             }
         }
-        catch (IOException e) {
-            assert true;
-        }
+        while (Objects.equals(last, this.lastQuestion.get(0).getQuestion()));
     }
 
     public String renderTemplate() {

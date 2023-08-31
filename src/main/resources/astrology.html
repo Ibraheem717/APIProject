@@ -2,84 +2,172 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nice Looking Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .menu {
+            flex: 1;
+            width: 100%;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        .menu-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-button:hover {
+            background-color: #0056b3;
+        }
+
+        .main {
+            flex: 4;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+        }
+
+        .remove-button {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .remove-button:hover {
+            background-color: #c0392b;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        input[type="submit"] {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .details-box {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background-color: #f7f7f7;
+        }
+        .submit-location-form {
+            margin-top: 10px; /* Add margin only to the top */
+        }
+    </style>
 </head>
-<body class="container">
-<menu class="menu">
-    {% for items in menu %}
-    <form action="/{{items}}" method="get">
-        <input class="menu-button" type="submit" value="Go to {{items}}">
-    </form>
-    {% endfor %}
-</menu>
-<div class="main">
-    {% if astrology is defined %}
-    {% if astrology is not none and astrology  %}
-    <ul>
-        {% for index, item in astrology.items() %}
-        <li>
-            {{index}}
+<body>
+<div class="container">
+    <div class="menu">
+        <menu>
+            {% for items in menu %}
+            <form action="/{{items}}" method="get">
+                <button class="menu-button" type="submit">Go to {{items}}</button>
+            </form>
+            {% endfor %}
+        </menu>
+    </div>
+    <div class="main">
+        {% if astrology is defined %}
+        {% if astrology is not none and astrology  %}
+        <ul>
+            {% for index, item in astrology.items() %}
+            <li>
+                {{index}}
+                <div class="details-box">
+                    <h3>Location Details:</h3>
+                    {% for notes, i in item.Location.items() %}
+                    {{ notes }} : {{ i }}
+                    <br>
+                    {% endfor %}
+                </div>
+                <div class="details-box">
+                    <h3>Astronomy Details:</h3>
+                    {% for notes, i in item.Astronomy.Astro.items() %}
+                    {{ notes }} : {{ i }}
+                    <br>
+                    {% endfor %}
+                </div>
+                <div>
+                    <form action="removeLocation" method="get">
+                        <input type="hidden" name="location" value="{{ index }}">
+                        <button class="remove-button" type="submit">Remove Location</button>
+                    </form>
+                </div>
+            </li>
             <br>
-            {% for notes, i in item.Location.items() %}
-                {{ notes }} :
-                {{ i }}
-                <br>
             {% endfor %}
-            {% for notes, i in item.Astronomy.Astro.items() %}
-                {{ notes }} :
-                {{ i }}
-                <br>
-            {% endfor %}
-            <div>
-                <form action="removeLocation" method="get">
-                    <input type="hidden" name="location" value="{{ index }}">
-                    <input type="submit" value="Remove Location">
-                </form>
-            </div>
-        </li>
-        <br>
-        {% endfor %}
-    </ul>
-    {% else %}
-    No Locations
-    {% endif %}
-    {% else %}
-    <div> No Locations </div>
-    {% endif %}
-    <form action="/addLocation" method="get">
-        <label for="location"></label><input type="text" id="location" name="location">
-        <input type="submit" value="Submit Answer">
-    </form>
+        </ul>
+        {% else %}
+        No Locations
+        {% endif %}
+        {% else %}
+        <div> No Locations </div>
+        {% endif %}
+        <form action="/addLocation" method="get" class="submit-location-form">
+            <label for="location"></label><input style="margin-bottom:10px;" type="text" id="location" name="location" placeholder="Enter a location">
+            <button class="menu-button" type="submit">Submit Location</button>
+        </form>
+    </div>
 </div>
 </body>
-<style>
-    * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.container {
-  display: flex;
-}
-
-.menu {
-  flex: 1;
-  width: 15%;
-  height: 100%;
-  background-color: #f0f0f0;
-  padding: 20px;
-}
-
-.menu-button {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.main {
-  flex: 4;
-  padding: 20px;
-}
-</style>
 </html>

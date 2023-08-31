@@ -6,20 +6,30 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class StepDefinitions {
     private boolean output;
+    private String lastQuestion;
+    private String currentQuestion;
+    private TriviaAPI trivia;
     @ParameterType(value = "true|True|TRUE|false|False|FALSE")
     public Boolean booleanValue(String value) {
         return Boolean.valueOf(value);
     }
-    @Given("quiz takes a catagory")
-    public void quiz_takes_a_catagory() {
+    @Given("a question")
+    public void a_question() {
+        this.trivia = new TriviaAPI(new String[]{"API", "questionAPI", "astrologyAPI"});
+        this.lastQuestion = this.trivia.testQuestiontionAPI("").get(0).getQuestion();
     }
-    @When("I give a {string}")
+    @When("I give a {string} and ask for a new question")
     public void i_give_a(String string) throws IOException {
         TriviaAPI trivia = new TriviaAPI(new String[]{"API", "questionAPI", "astrologyAPI"});
-        this.output = trivia.testQuestiontionAPI(string).isEmpty();
+        this.currentQuestion = trivia.testQuestiontionAPI(string).get(0).getQuestion();
+    }
+    @Then("I should get a different question")
+    public void i_should_get_a_different_question() {
+        assertNotEquals(this.currentQuestion, this.lastQuestion);
     }
     @Given("the question isn't answered already")
     public void the_question_isn_t_answered_already() {
