@@ -7,6 +7,6 @@ Feature: Next question
     Then I should get a different question
 
   Examples:
-    | catagory       |
+    | category       |
     | music          |
     |                |
