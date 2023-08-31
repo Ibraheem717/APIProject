@@ -21,8 +21,6 @@ public class Location {
         dict.put("Country", this.country);
         dict.put("Lat", this.lat);
         dict.put("Lon", this.lon);
-        dict.put("tz_id", this.tz_id);
-        dict.put("Localtime_epoch", this.localtime_epoch);
         dict.put("Localtime", this.localtime);
         return dict;
     }

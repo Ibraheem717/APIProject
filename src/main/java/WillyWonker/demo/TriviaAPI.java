@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class TriviaAPI {
-    String catagory;
+    String category;
     List<Referential> lastQuestion;
     String [] listOfAPI;
     boolean reveal;
@@ -22,7 +22,7 @@ public class TriviaAPI {
         this.listOfAPI=arr;
         reveal = false;
         correct = false;
-        catagory = "";
+        category = "";
     }
 
     public boolean getReveal() {return this.reveal;}
@@ -38,7 +38,7 @@ public class TriviaAPI {
         String last = (this.lastQuestion==null ? "" : this.lastQuestion.get(0).getQuestion());
         do {
             Request request = new Request.Builder()
-                    .url("https://trivia-by-api-ninjas.p.rapidapi.com/v1/trivia?category=" + catagory)
+                    .url("https://trivia-by-api-ninjas.p.rapidapi.com/v1/trivia?category=" + category)
                     .get()
                     .addHeader("X-RapidAPI-Key", DemoApplication.keyValue)
                     .build();
@@ -98,13 +98,13 @@ public class TriviaAPI {
         reveal=false;
         correct=false;
         if (!Objects.equals(category, "no_change"))
-            this.catagory = category;
+            this.category = category;
         this.getQuestionAPI();
         return renderTemplate();
     }
 
-    public List<Referential> testQuestiontionAPI(String catagory)  {
-        this.catagory=catagory;
+    public List<Referential> testQuestiontionAPI(String category)  {
+        this.category=category;
         this.getQuestionAPI();
         return this.lastQuestion;
     }

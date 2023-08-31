@@ -19,12 +19,8 @@ public class Astro {
         HashMap<String, Object> dict = new HashMap<>();
         dict.put("Sunrise", this.sunrise);
         dict.put("Sunset", this.sunset);
-        dict.put("Moonrise", this.moonrise);
-        dict.put("Moonset", this.moonset);
-        dict.put("Moon_phase", this.moon_phase);
-        dict.put("Moon_illumination", this.moon_illumination);
-        dict.put("is_moon_up", this.is_moon_up);
-        dict.put("is_sun_up", this.is_sun_up);
+        dict.put("Moon Phase", this.moon_phase);
+        dict.put("Moon Illumination", this.moon_illumination);
         return dict;
     }
 }

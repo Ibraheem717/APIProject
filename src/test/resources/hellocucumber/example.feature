@@ -1,9 +1,9 @@
-Feature: Do I get a question?
+Feature: Next question
   The users wants to get a question
 
-  Scenario Outline: Is a questioned given or not?
+  Scenario Outline: User wants a new question
     Given a question
-    When I give a "<catagory>" and ask for a new question
+    When I give a "<category>" and ask for a new question
     Then I should get a different question
 
   Examples:

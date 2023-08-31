@@ -1,7 +1,7 @@
-Feature: Did I get the question correct?
+Feature: Answering a question
   I put in an answer
 
-  Scenario Outline: Is question correct?
+  Scenario Outline: User answers a question
     Given the question isn't answered already
     When I give an "<answer>"
     Then I should get "<result>"
