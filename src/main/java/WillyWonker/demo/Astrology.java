@@ -1,10 +1,12 @@
 package WillyWonker.demo;
 import java.util.HashMap;
-
-
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Astrology {
-    public Location location;
-    public Astronomy astronomy;
+    private Location location;
+    private Astronomy astronomy;
 
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> dict = new HashMap<>();

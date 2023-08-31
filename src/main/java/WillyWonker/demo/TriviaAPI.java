@@ -32,7 +32,9 @@ public class TriviaAPI {
     }
 
     public void getQuestionAPI()  {
+
         OkHttpClient client = new OkHttpClient().newBuilder().build();
+
         String last = (this.lastQuestion==null ? "" : this.lastQuestion.get(0).getQuestion());
         do {
             Request request = new Request.Builder()

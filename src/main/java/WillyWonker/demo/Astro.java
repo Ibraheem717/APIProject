@@ -1,16 +1,19 @@
 package WillyWonker.demo;
 
 import java.util.HashMap;
-
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Astro {
-    public String sunrise;
-    public String sunset;
-    public String moonrise;
-    public String moonset;
-    public String moon_phase;
-    public String moon_illumination;
-    public int is_moon_up;
-    public int is_sun_up;
+    private String sunrise;
+    private String sunset;
+    private String moonrise;
+    private String moonset;
+    private String moon_phase;
+    private String moon_illumination;
+    private int is_moon_up;
+    private int is_sun_up;
 
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> dict = new HashMap<>();
