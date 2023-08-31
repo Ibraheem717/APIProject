@@ -18,7 +18,6 @@ public class DemoApplication {
 	static String keyValue=System.getenv("RAPID_API_KEY");
 	private TriviaAPI trivia = new TriviaAPI(listOfAPI);
 	private AstrologyAPI astrology = new AstrologyAPI(listOfAPI);
-	private Jinjava jinjava;
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(DemoApplication.class, args);
@@ -32,19 +31,19 @@ public class DemoApplication {
 
 	@GetMapping("/questionAPI")
 	@ResponseBody
-	public String questionAPI() throws IOException {
+	public String questionAPI()  {
 		this.trivia.getQuestionAPI();
 		return this.trivia.renderTemplate();
 	}
 	@GetMapping("/revealAnswer")
 	@ResponseBody
-	public String revealAnswer(@RequestParam String answer) throws IOException, InterruptedException {
+	public String revealAnswer(@RequestParam String answer)  {
 		return this.trivia.revealAnswer(answer);
 	}
 
 	@GetMapping("/refreshTrivia")
 	@ResponseBody
-	public String newTrivia(@RequestParam String category) throws IOException, InterruptedException {
+	public String newTrivia(@RequestParam String category)  {
 		return this.trivia.newTrivia(category);
 	}
 
@@ -69,7 +68,7 @@ public class DemoApplication {
 	@GetMapping("/API")
 	@ResponseBody
 	public String homePage()  {
-		this.jinjava = new Jinjava();
+		Jinjava jinjava = new Jinjava();
 		String temp = null;
 		try {
 			temp = Files.readString(Paths.get("src/main/resources/Home.html"));
