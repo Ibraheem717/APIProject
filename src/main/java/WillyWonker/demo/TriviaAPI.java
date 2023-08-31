@@ -47,6 +47,7 @@ public class TriviaAPI {
                     this.lastQuestion = List.of(objectMapper.readValue(responseBody, Referential[].class));
                 }
             } catch (IOException e) {
+                this.lastQuestion = new ArrayList<>();
                 this.lastQuestion.add(new Referential());
             }
         }
